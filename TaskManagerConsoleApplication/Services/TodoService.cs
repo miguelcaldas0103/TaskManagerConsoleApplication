@@ -6,7 +6,7 @@ public class TodoService
 {
     private readonly List<Todo> _todos = new();
 
-    public void Add(Todo todo)
+    public void AddTodo(Todo todo)
     {
         _todos.Add(todo);
     }
@@ -24,5 +24,15 @@ public class TodoService
     public void CompleteTodo(Todo todo)
     {
         todo.IsCompleted = true;
+    }
+
+    public List<Todo> TodosToComplete()
+    {
+        return _todos.Where(t => t.IsCompleted == false).ToList();
+    }
+
+    public List<Todo> ShowHighPriorityTodos()
+    {
+        return _todos.Where(t => t.IsCompleted == false).ToList();
     }
 }
