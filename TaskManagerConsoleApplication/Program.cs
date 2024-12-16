@@ -14,6 +14,7 @@ while (true)
     Console.WriteLine("5. Show list of todos to complete.");
     Console.WriteLine("7. Show high priority todos.");
     Console.WriteLine("6. Generate todo alert calendar.");
+    Console.WriteLine("q. Quit application.");
     
     var choice = Console.ReadLine();
 
@@ -26,8 +27,18 @@ while (true)
             var description = Console.ReadLine();
             Console.WriteLine("Enter todo duedate: ");
             var duedate = Console.ReadLine();
-            Console.WriteLine("Enter todo priority");
+            if (!DateTime.TryParse(duedate, out DateTime dueDate))
+            {
+                Console.WriteLine("Please enter a valide date for the duedate.");
+                break;
+            }
+            Console.WriteLine("Enter todo priority (Low, Medium , High, Very High: ");
             var priority = Console.ReadLine();
+            if (priority != "Low" && priority != "Medium" && priority != "High" && priority != "Very High")
+            {
+                Console.WriteLine("Please enter a valid priority.");
+                continue;
+            }
             todoService.AddTodo(new Todo()
             {
                 Title = title,
@@ -38,7 +49,14 @@ while (true)
             Console.WriteLine("Done!");
             break;
         case "2":
-            todoService.GetTodos();
+            var todos = todoService.GetTodos();
+            Console.WriteLine("List of todos: ");
+            var i = 0;
+            foreach (var todo in todos)
+            {
+                 i++;
+                Console.WriteLine($"Number: {i} Title: {todo.Title} Description: {todo.Description} Duedate: {todo.DueDate} Priority: {todo.Priority} Completed? {todo.IsCompleted}");
+            }
             break;
     }
 }
