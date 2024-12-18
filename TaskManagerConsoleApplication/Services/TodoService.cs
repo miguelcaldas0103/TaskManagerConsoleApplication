@@ -16,14 +16,16 @@ public class TodoService
         return _todos;
     }
 
-    public void Delete(Todo todo)
+    public void Delete(string todoTitle)
     {
-        _todos.Remove(todo);
+        var todoToDelete = _todos.First(t => t.Title == todoTitle);
+        _todos.Remove(todoToDelete);
     }
 
-    public void CompleteTodo(Todo todo)
+    public void CompleteTodo(string todoTitle)
     {
-        todo.IsCompleted = true;
+        var todoToComplete = _todos.FirstOrDefault(t => t.Title == todoTitle);
+        todoToComplete.IsCompleted = true;
     }
 
     public List<Todo> TodosToComplete()
@@ -34,5 +36,9 @@ public class TodoService
     public List<Todo> ShowHighPriorityTodos()
     {
         return _todos.Where(t => t.IsCompleted == false).ToList();
+    }
+    public bool DoesTodoExist(string todoTitle)
+    {
+        return _todos.Any(todo => todo.Title == todoTitle);
     }
 }
